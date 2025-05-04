@@ -1,0 +1,9 @@
+version: '3'
+
+tasks:
+  rungrpc:
+    cmds:
+      - go run ./currency_service/cmd/main.go --config=currency_service/internal/config/local.yaml
+  generate:
+    cmds:
+      - protoc -I "crud/proto" --go_out="crud/proto/gen/go" --go-grpc_out="crud/proto/gen/go" "crud/proto/crud.proto"

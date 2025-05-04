@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+package crud;
+
+option go_package = "kirill.sso.v2";
+
+service Crud {
+  rpc CreateCurrency(CreateCurrencyRequest) returns (CreateCurrencyResponse);
+  rpc UpdateCurrency(UpdateCurrencyRequest) returns (UpdateCurrencyResponse);
+  rpc Delete(DeleteCurrencyRequest) returns (DeleteCurrencyResponse);
+  rpc AddCurrency(AddCurrencyRequest) returns (AddCurrencyResponse);
+  rpc GetCurrency(GetCurrencyRequest) returns (GetCurrencyResponse);
+}
+
+message CurrencyRate {
+  string code = 1;
+  double rate = 2; // курс в рублях (double = float64)
+}
+
+message CurrencyRates {
+  string date = 1;
+  repeated CurrencyRate rates = 2; // repeated = список с курсами валют
+}
+
+message CreateCurrencyRequest {
+  string code = 1;
+  string rate = 2;
+  double value = 3;
+}
+
+message CreateCurrencyResponse {
+  CurrencyRate created_rate = 1;
+}
+
+message UpdateCurrencyRequest {
+  CurrencyRate currency_update = 1;
+}
+
+message UpdateCurrencyResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message DeleteCurrencyRequest {
+  string code = 1;
+  string date = 2;
+}
+
+message DeleteCurrencyResponse {
+  bool success = 1;
+}
+
+message AddCurrencyRequest {
+  string code = 1;
+  double rate = 2;
+  string date = 3;
+}
+
+message AddCurrencyResponse{
+  CurrencyRate add_rate = 1;
+}
+
+message GetCurrencyRequest {
+  string code = 1;
+}
+
+message GetCurrencyResponse {
+  CurrencyRate currency = 1;
+}
