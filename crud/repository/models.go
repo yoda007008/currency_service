@@ -1,0 +1,16 @@
+package repository
+
+import "context"
+
+type Currency struct {
+	Code  string
+	Rate  string
+	Value float64
+}
+
+type CurrencyRepository interface {
+	Add(ctx context.Context, c Currency) error
+	Delete(ctx context.Context, code string) error
+	Update(ctx context.Context) bool
+	Get(ctx context.Context) (Currency, error)
+}
