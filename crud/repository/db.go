@@ -13,8 +13,8 @@ func Connect() (*sql.DB, error) {
 	name := os.Getenv("DB_NAME")
 	user := os.Getenv("DB_USER")
 
-	dsn := fmt.Sprintf("host=%s, port=%s, password=%s, dbname=%s, dbuser=%s, sslmode=disable", host, port, password, name, user)
-
+	dsn := fmt.Sprintf("host=%s port=%s password=%s dbname=%s user=%s sslmode=disable", host, port, password, name, user)
+	fmt.Println(dsn)
 	db, err := sql.Open("postgres", dsn)
 	if err != nil {
 		return nil, err

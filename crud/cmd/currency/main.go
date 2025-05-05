@@ -3,12 +3,24 @@ package main
 import (
 	"currency_service/crud/handler"
 	kirill_sso_v2 "currency_service/crud/proto/gen/go/kirill.sso.v2"
+	"currency_service/crud/repository"
 	"fmt"
+	"github.com/joho/godotenv"
+	_ "github.com/lib/pq"
 	"google.golang.org/grpc"
+	"log"
 	"net"
 )
 
 func main() {
+	_, err := repository.Connect()
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
 	lis, err := net.Listen("tcp", ":50051")
 	fmt.Println(err)
 	grpcServer := grpc.NewServer()
