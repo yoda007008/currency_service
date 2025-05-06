@@ -11,7 +11,6 @@ type Currency struct {
 type CurrencyRepository interface {
 	Create(ctx context.Context, c Currency) error
 	Delete(ctx context.Context, code string) error
-	Update(ctx context.Context, c Currency) bool
+	Update(ctx context.Context, c Currency) error
 	Get(ctx context.Context, code string) (Currency, error)
-	Exists(ctx context.Context, code string) (bool, error)
 }
