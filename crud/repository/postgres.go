@@ -18,7 +18,7 @@ func NewPostgresCurrencyRepository(connString string) (*PostgresCurrencyReposito
 
 	_, err = db.Exec(context.Background(), `
 			CREATE TABLE IF NOT EXISTS currency_rates (
-    		code VARCHAR PRIMERY KEY
+    		code VARCHAR PRIMARY KEY
             rate VARCHAR NOT NULL
             value DOUBLE PRECISION NOT NULL);`)
 	if err != nil {
@@ -47,4 +47,13 @@ func (r *PostgresCurrencyRepository) Update(ctx context.Context, c Currency) err
 func (r *PostgresCurrencyRepository) Delete(ctx context.Context, code string) error {
 	_, err := r.db.Exec(ctx, `DELETE FROM currency_rates WHERE code=$1`, code)
 	return err
+}
+
+func (r *PostgresCurrencyRepository) Exists(ctx context.Context, code string) (bool, error) {
+	var exists bool
+	err := r.db.QueryRow(ctx, `SELECT EXISTS (SELECT 1 FROM currency_rates WHERE code=$1`, code).Scan(&exists)
+	if err != nil {
+		return false, err
+	}
+	return exists, nil
 }
