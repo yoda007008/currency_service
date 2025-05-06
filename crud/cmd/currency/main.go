@@ -3,29 +3,33 @@ package main
 import (
 	"currency_service/crud/handler"
 	kirill_sso_v2 "currency_service/crud/proto/gen/go/kirill.sso.v2"
-	"fmt"
-	"github.com/joho/godotenv"
+	"currency_service/crud/repository"
 	_ "github.com/lib/pq"
 	"google.golang.org/grpc"
 	"log"
 	"net"
+	"os"
 )
 
 func main() {
-	err := godotenv.Load()
+	connStr := os.Getenv("DATABASE_URL")
+	repo, err := repository.NewPostgresCurrencyRepository(connStr)
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		log.Fatal("database is not created", err)
 	}
-	lis, err := net.Listen("tcp", ":50051")
-	fmt.Println(err)
+
+	grpcPort := os.Getenv("GRPC_PORT")
+
+	lis, err := net.Listen("tcp", grpcPort)
+	if err != nil {
+		log.Fatalf("Failed to listen: %v", err)
+	}
+
 	grpcServer := grpc.NewServer()
-	kirill_sso_v2.RegisterCrudServer(
-		grpcServer,
-		&handler.CurrencyService{
-			UnimplementedCrudServer: kirill_sso_v2.UnimplementedCrudServer{},
-			Currency:                []handler.Currency{},
-		},
-	)
-	err = grpcServer.Serve(lis)
-	fmt.Println(err)
+	kirill_sso_v2.RegisterCrudServer(grpcServer, &handler.CurrencyService{Repo: repo})
+
+	log.Println("gRPC server running on :50051")
+	if err := grpcServer.Serve(lis); err != nil {
+		log.Fatalf("gRPC serve error: %v", err)
+	}
 }
