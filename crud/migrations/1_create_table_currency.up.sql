@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS currency_rates(
+    code VARCHAR PRIMARY KEY,
+    rate VARCHAR NOT NULL,
+    value DOUBLE PRECISION NOT NULL
+)
