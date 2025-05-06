@@ -7,3 +7,6 @@ tasks:
   generate:
     cmds:
       - protoc -I "crud/proto" --go_out="crud/proto/gen/go" --go-grpc_out="crud/proto/gen/go" "crud/proto/crud.proto"
+  rundb:
+    cmds:
+      - docker-compose up -d
