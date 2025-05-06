@@ -2,6 +2,7 @@ package handler
 
 import (
 	"context"
+	"currency_service/crud/dto"
 	kirill_sso_v2 "currency_service/crud/proto/gen/go/kirill.sso.v2"
 	"currency_service/crud/repository"
 )
@@ -17,7 +18,7 @@ func (s *CurrencyService) Delete(ctx context.Context, req *kirill_sso_v2.DeleteC
 }
 
 func (s *CurrencyService) CreateCurrency(ctx context.Context, req *kirill_sso_v2.CreateCurrencyRequest) (*kirill_sso_v2.CreateCurrencyResponse, error) {
-	err := s.Repo.Create(ctx, repository.Currency{
+	err := s.Repo.Create(ctx, dto.Currency{
 		Code:  req.Code,
 		Rate:  req.Rate,
 		Value: req.Value,
@@ -26,7 +27,7 @@ func (s *CurrencyService) CreateCurrency(ctx context.Context, req *kirill_sso_v2
 }
 
 func (s *CurrencyService) UpdateCurrency(ctx context.Context, req *kirill_sso_v2.UpdateCurrencyRequest) (*kirill_sso_v2.UpdateCurrencyResponse, error) {
-	err := s.Repo.Update(ctx, repository.Currency{
+	err := s.Repo.Update(ctx, dto.Currency{
 		Code:  req.CurrencyUpdate.Code,
 		Rate:  req.CurrencyUpdate.Rate,
 		Value: req.CurrencyUpdate.Value,
