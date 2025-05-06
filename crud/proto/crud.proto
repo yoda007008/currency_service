@@ -8,7 +8,6 @@ service Crud {
   rpc CreateCurrency(CreateCurrencyRequest) returns (CreateCurrencyResponse);
   rpc UpdateCurrency(UpdateCurrencyRequest) returns (UpdateCurrencyResponse);
   rpc Delete(DeleteCurrencyRequest) returns (DeleteCurrencyResponse);
-  rpc AddCurrency(AddCurrencyRequest) returns (AddCurrencyResponse);
   rpc GetCurrency(GetCurrencyRequest) returns (GetCurrencyResponse);
 }
 
@@ -50,16 +49,6 @@ message DeleteCurrencyRequest {
 
 message DeleteCurrencyResponse {
   bool success = 1;
-}
-
-message AddCurrencyRequest {
-  string code = 1;
-  double value = 2;
-  string date = 3;
-}
-
-message AddCurrencyResponse{
-  CurrencyRate add_rate = 1;
 }
 
 message GetCurrencyRequest {

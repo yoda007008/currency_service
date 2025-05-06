@@ -22,7 +22,6 @@ const (
 	Crud_CreateCurrency_FullMethodName = "/crud.Crud/CreateCurrency"
 	Crud_UpdateCurrency_FullMethodName = "/crud.Crud/UpdateCurrency"
 	Crud_Delete_FullMethodName         = "/crud.Crud/Delete"
-	Crud_AddCurrency_FullMethodName    = "/crud.Crud/AddCurrency"
 	Crud_GetCurrency_FullMethodName    = "/crud.Crud/GetCurrency"
 )
 
@@ -33,7 +32,6 @@ type CrudClient interface {
 	CreateCurrency(ctx context.Context, in *CreateCurrencyRequest, opts ...grpc.CallOption) (*CreateCurrencyResponse, error)
 	UpdateCurrency(ctx context.Context, in *UpdateCurrencyRequest, opts ...grpc.CallOption) (*UpdateCurrencyResponse, error)
 	Delete(ctx context.Context, in *DeleteCurrencyRequest, opts ...grpc.CallOption) (*DeleteCurrencyResponse, error)
-	AddCurrency(ctx context.Context, in *AddCurrencyRequest, opts ...grpc.CallOption) (*AddCurrencyResponse, error)
 	GetCurrency(ctx context.Context, in *GetCurrencyRequest, opts ...grpc.CallOption) (*GetCurrencyResponse, error)
 }
 
@@ -75,16 +73,6 @@ func (c *crudClient) Delete(ctx context.Context, in *DeleteCurrencyRequest, opts
 	return out, nil
 }
 
-func (c *crudClient) AddCurrency(ctx context.Context, in *AddCurrencyRequest, opts ...grpc.CallOption) (*AddCurrencyResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(AddCurrencyResponse)
-	err := c.cc.Invoke(ctx, Crud_AddCurrency_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *crudClient) GetCurrency(ctx context.Context, in *GetCurrencyRequest, opts ...grpc.CallOption) (*GetCurrencyResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetCurrencyResponse)
@@ -102,7 +90,6 @@ type CrudServer interface {
 	CreateCurrency(context.Context, *CreateCurrencyRequest) (*CreateCurrencyResponse, error)
 	UpdateCurrency(context.Context, *UpdateCurrencyRequest) (*UpdateCurrencyResponse, error)
 	Delete(context.Context, *DeleteCurrencyRequest) (*DeleteCurrencyResponse, error)
-	AddCurrency(context.Context, *AddCurrencyRequest) (*AddCurrencyResponse, error)
 	GetCurrency(context.Context, *GetCurrencyRequest) (*GetCurrencyResponse, error)
 	mustEmbedUnimplementedCrudServer()
 }
@@ -122,9 +109,6 @@ func (UnimplementedCrudServer) UpdateCurrency(context.Context, *UpdateCurrencyRe
 }
 func (UnimplementedCrudServer) Delete(context.Context, *DeleteCurrencyRequest) (*DeleteCurrencyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
-}
-func (UnimplementedCrudServer) AddCurrency(context.Context, *AddCurrencyRequest) (*AddCurrencyResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AddCurrency not implemented")
 }
 func (UnimplementedCrudServer) GetCurrency(context.Context, *GetCurrencyRequest) (*GetCurrencyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCurrency not implemented")
@@ -204,24 +188,6 @@ func _Crud_Delete_Handler(srv interface{}, ctx context.Context, dec func(interfa
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Crud_AddCurrency_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AddCurrencyRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CrudServer).AddCurrency(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Crud_AddCurrency_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CrudServer).AddCurrency(ctx, req.(*AddCurrencyRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _Crud_GetCurrency_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetCurrencyRequest)
 	if err := dec(in); err != nil {
@@ -258,10 +224,6 @@ var Crud_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Delete",
 			Handler:    _Crud_Delete_Handler,
-		},
-		{
-			MethodName: "AddCurrency",
-			Handler:    _Crud_AddCurrency_Handler,
 		},
 		{
 			MethodName: "GetCurrency",

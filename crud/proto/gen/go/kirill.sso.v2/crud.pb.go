@@ -429,110 +429,6 @@ func (x *DeleteCurrencyResponse) GetSuccess() bool {
 	return false
 }
 
-type AddCurrencyRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Code          string                 `protobuf:"bytes,1,opt,name=code,proto3" json:"code,omitempty"`
-	Value         float64                `protobuf:"fixed64,2,opt,name=value,proto3" json:"value,omitempty"`
-	Date          string                 `protobuf:"bytes,3,opt,name=date,proto3" json:"date,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *AddCurrencyRequest) Reset() {
-	*x = AddCurrencyRequest{}
-	mi := &file_crud_proto_msgTypes[8]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *AddCurrencyRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*AddCurrencyRequest) ProtoMessage() {}
-
-func (x *AddCurrencyRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_crud_proto_msgTypes[8]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use AddCurrencyRequest.ProtoReflect.Descriptor instead.
-func (*AddCurrencyRequest) Descriptor() ([]byte, []int) {
-	return file_crud_proto_rawDescGZIP(), []int{8}
-}
-
-func (x *AddCurrencyRequest) GetCode() string {
-	if x != nil {
-		return x.Code
-	}
-	return ""
-}
-
-func (x *AddCurrencyRequest) GetValue() float64 {
-	if x != nil {
-		return x.Value
-	}
-	return 0
-}
-
-func (x *AddCurrencyRequest) GetDate() string {
-	if x != nil {
-		return x.Date
-	}
-	return ""
-}
-
-type AddCurrencyResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	AddRate       *CurrencyRate          `protobuf:"bytes,1,opt,name=add_rate,json=addRate,proto3" json:"add_rate,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *AddCurrencyResponse) Reset() {
-	*x = AddCurrencyResponse{}
-	mi := &file_crud_proto_msgTypes[9]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *AddCurrencyResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*AddCurrencyResponse) ProtoMessage() {}
-
-func (x *AddCurrencyResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_crud_proto_msgTypes[9]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use AddCurrencyResponse.ProtoReflect.Descriptor instead.
-func (*AddCurrencyResponse) Descriptor() ([]byte, []int) {
-	return file_crud_proto_rawDescGZIP(), []int{9}
-}
-
-func (x *AddCurrencyResponse) GetAddRate() *CurrencyRate {
-	if x != nil {
-		return x.AddRate
-	}
-	return nil
-}
-
 type GetCurrencyRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Code          string                 `protobuf:"bytes,1,opt,name=code,proto3" json:"code,omitempty"`
@@ -542,7 +438,7 @@ type GetCurrencyRequest struct {
 
 func (x *GetCurrencyRequest) Reset() {
 	*x = GetCurrencyRequest{}
-	mi := &file_crud_proto_msgTypes[10]
+	mi := &file_crud_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -554,7 +450,7 @@ func (x *GetCurrencyRequest) String() string {
 func (*GetCurrencyRequest) ProtoMessage() {}
 
 func (x *GetCurrencyRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_crud_proto_msgTypes[10]
+	mi := &file_crud_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -567,7 +463,7 @@ func (x *GetCurrencyRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCurrencyRequest.ProtoReflect.Descriptor instead.
 func (*GetCurrencyRequest) Descriptor() ([]byte, []int) {
-	return file_crud_proto_rawDescGZIP(), []int{10}
+	return file_crud_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *GetCurrencyRequest) GetCode() string {
@@ -586,7 +482,7 @@ type GetCurrencyResponse struct {
 
 func (x *GetCurrencyResponse) Reset() {
 	*x = GetCurrencyResponse{}
-	mi := &file_crud_proto_msgTypes[11]
+	mi := &file_crud_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -598,7 +494,7 @@ func (x *GetCurrencyResponse) String() string {
 func (*GetCurrencyResponse) ProtoMessage() {}
 
 func (x *GetCurrencyResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_crud_proto_msgTypes[11]
+	mi := &file_crud_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -611,7 +507,7 @@ func (x *GetCurrencyResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCurrencyResponse.ProtoReflect.Descriptor instead.
 func (*GetCurrencyResponse) Descriptor() ([]byte, []int) {
-	return file_crud_proto_rawDescGZIP(), []int{11}
+	return file_crud_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *GetCurrencyResponse) GetCurrency() *CurrencyRate {
@@ -649,22 +545,15 @@ const file_crud_proto_rawDesc = "" +
 	"\x04code\x18\x01 \x01(\tR\x04code\x12\x12\n" +
 	"\x04date\x18\x02 \x01(\tR\x04date\"2\n" +
 	"\x16DeleteCurrencyResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\"R\n" +
-	"\x12AddCurrencyRequest\x12\x12\n" +
-	"\x04code\x18\x01 \x01(\tR\x04code\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\x01R\x05value\x12\x12\n" +
-	"\x04date\x18\x03 \x01(\tR\x04date\"D\n" +
-	"\x13AddCurrencyResponse\x12-\n" +
-	"\badd_rate\x18\x01 \x01(\v2\x12.crud.CurrencyRateR\aaddRate\"(\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"(\n" +
 	"\x12GetCurrencyRequest\x12\x12\n" +
 	"\x04code\x18\x01 \x01(\tR\x04code\"E\n" +
 	"\x13GetCurrencyResponse\x12.\n" +
-	"\bcurrency\x18\x01 \x01(\v2\x12.crud.CurrencyRateR\bcurrency2\xed\x02\n" +
+	"\bcurrency\x18\x01 \x01(\v2\x12.crud.CurrencyRateR\bcurrency2\xa9\x02\n" +
 	"\x04Crud\x12K\n" +
 	"\x0eCreateCurrency\x12\x1b.crud.CreateCurrencyRequest\x1a\x1c.crud.CreateCurrencyResponse\x12K\n" +
 	"\x0eUpdateCurrency\x12\x1b.crud.UpdateCurrencyRequest\x1a\x1c.crud.UpdateCurrencyResponse\x12C\n" +
 	"\x06Delete\x12\x1b.crud.DeleteCurrencyRequest\x1a\x1c.crud.DeleteCurrencyResponse\x12B\n" +
-	"\vAddCurrency\x12\x18.crud.AddCurrencyRequest\x1a\x19.crud.AddCurrencyResponse\x12B\n" +
 	"\vGetCurrency\x12\x18.crud.GetCurrencyRequest\x1a\x19.crud.GetCurrencyResponseB\x0fZ\rkirill.sso.v2b\x06proto3"
 
 var (
@@ -679,7 +568,7 @@ func file_crud_proto_rawDescGZIP() []byte {
 	return file_crud_proto_rawDescData
 }
 
-var file_crud_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
+var file_crud_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_crud_proto_goTypes = []any{
 	(*CurrencyRate)(nil),           // 0: crud.CurrencyRate
 	(*CurrencyRates)(nil),          // 1: crud.CurrencyRates
@@ -689,32 +578,27 @@ var file_crud_proto_goTypes = []any{
 	(*UpdateCurrencyResponse)(nil), // 5: crud.UpdateCurrencyResponse
 	(*DeleteCurrencyRequest)(nil),  // 6: crud.DeleteCurrencyRequest
 	(*DeleteCurrencyResponse)(nil), // 7: crud.DeleteCurrencyResponse
-	(*AddCurrencyRequest)(nil),     // 8: crud.AddCurrencyRequest
-	(*AddCurrencyResponse)(nil),    // 9: crud.AddCurrencyResponse
-	(*GetCurrencyRequest)(nil),     // 10: crud.GetCurrencyRequest
-	(*GetCurrencyResponse)(nil),    // 11: crud.GetCurrencyResponse
+	(*GetCurrencyRequest)(nil),     // 8: crud.GetCurrencyRequest
+	(*GetCurrencyResponse)(nil),    // 9: crud.GetCurrencyResponse
 }
 var file_crud_proto_depIdxs = []int32{
-	0,  // 0: crud.CurrencyRates.rates:type_name -> crud.CurrencyRate
-	0,  // 1: crud.CreateCurrencyResponse.created_rate:type_name -> crud.CurrencyRate
-	0,  // 2: crud.UpdateCurrencyRequest.currency_update:type_name -> crud.CurrencyRate
-	0,  // 3: crud.AddCurrencyResponse.add_rate:type_name -> crud.CurrencyRate
-	0,  // 4: crud.GetCurrencyResponse.currency:type_name -> crud.CurrencyRate
-	2,  // 5: crud.Crud.CreateCurrency:input_type -> crud.CreateCurrencyRequest
-	4,  // 6: crud.Crud.UpdateCurrency:input_type -> crud.UpdateCurrencyRequest
-	6,  // 7: crud.Crud.Delete:input_type -> crud.DeleteCurrencyRequest
-	8,  // 8: crud.Crud.AddCurrency:input_type -> crud.AddCurrencyRequest
-	10, // 9: crud.Crud.GetCurrency:input_type -> crud.GetCurrencyRequest
-	3,  // 10: crud.Crud.CreateCurrency:output_type -> crud.CreateCurrencyResponse
-	5,  // 11: crud.Crud.UpdateCurrency:output_type -> crud.UpdateCurrencyResponse
-	7,  // 12: crud.Crud.Delete:output_type -> crud.DeleteCurrencyResponse
-	9,  // 13: crud.Crud.AddCurrency:output_type -> crud.AddCurrencyResponse
-	11, // 14: crud.Crud.GetCurrency:output_type -> crud.GetCurrencyResponse
-	10, // [10:15] is the sub-list for method output_type
-	5,  // [5:10] is the sub-list for method input_type
-	5,  // [5:5] is the sub-list for extension type_name
-	5,  // [5:5] is the sub-list for extension extendee
-	0,  // [0:5] is the sub-list for field type_name
+	0, // 0: crud.CurrencyRates.rates:type_name -> crud.CurrencyRate
+	0, // 1: crud.CreateCurrencyResponse.created_rate:type_name -> crud.CurrencyRate
+	0, // 2: crud.UpdateCurrencyRequest.currency_update:type_name -> crud.CurrencyRate
+	0, // 3: crud.GetCurrencyResponse.currency:type_name -> crud.CurrencyRate
+	2, // 4: crud.Crud.CreateCurrency:input_type -> crud.CreateCurrencyRequest
+	4, // 5: crud.Crud.UpdateCurrency:input_type -> crud.UpdateCurrencyRequest
+	6, // 6: crud.Crud.Delete:input_type -> crud.DeleteCurrencyRequest
+	8, // 7: crud.Crud.GetCurrency:input_type -> crud.GetCurrencyRequest
+	3, // 8: crud.Crud.CreateCurrency:output_type -> crud.CreateCurrencyResponse
+	5, // 9: crud.Crud.UpdateCurrency:output_type -> crud.UpdateCurrencyResponse
+	7, // 10: crud.Crud.Delete:output_type -> crud.DeleteCurrencyResponse
+	9, // 11: crud.Crud.GetCurrency:output_type -> crud.GetCurrencyResponse
+	8, // [8:12] is the sub-list for method output_type
+	4, // [4:8] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_crud_proto_init() }
@@ -728,7 +612,7 @@ func file_crud_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_crud_proto_rawDesc), len(file_crud_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   12,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
