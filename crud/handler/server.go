@@ -6,11 +6,6 @@ import (
 	"currency_service/crud/repository"
 )
 
-type Currency struct {
-	Code  string
-	Rate  string
-	Value float64
-}
 type CurrencyService struct {
 	kirill_sso_v2.UnimplementedCrudServer
 	Repo *repository.PostgresCurrencyRepository
