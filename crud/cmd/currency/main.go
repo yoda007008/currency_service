@@ -1,9 +1,11 @@
 package main
 
 import (
+	"currency_service/crud/cmd/migrator"
 	"currency_service/crud/handler"
 	kirill_sso_v2 "currency_service/crud/proto/gen/go/kirill.sso.v2"
 	"currency_service/crud/repository"
+	"fmt"
 	_ "github.com/lib/pq"
 	"google.golang.org/grpc"
 	"log"
@@ -13,6 +15,13 @@ import (
 
 func main() {
 	connStr := os.Getenv("DATABASE_URL")
+	fmt.Println(connStr)
+
+	migrationsPath := os.Getenv("MIGRATIONS_PATH")
+	if err := migration.RunMigrations(connStr, migrationsPath); err != nil {
+		log.Println("Migrations is not success", err)
+	}
+
 	repo, err := repository.NewPostgresCurrencyRepository(connStr)
 	if err != nil {
 		log.Fatal("database is not created", err)
