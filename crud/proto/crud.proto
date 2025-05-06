@@ -14,7 +14,9 @@ service Crud {
 
 message CurrencyRate {
   string code = 1;
-  double rate = 2; // курс в рублях (double = float64)
+  string rate = 2;
+  double value = 3; // курс в рублях (double = float64)
+
 }
 
 message CurrencyRates {
@@ -52,7 +54,7 @@ message DeleteCurrencyResponse {
 
 message AddCurrencyRequest {
   string code = 1;
-  double rate = 2;
+  double value = 2;
   string date = 3;
 }
 
