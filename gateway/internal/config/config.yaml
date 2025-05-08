@@ -1,0 +1,10 @@
+server:
+  host: "localhost"
+  port: 8080
+
+auth:
+  url: "http://localhost:8081/validate"
+
+currency_service:
+  url: "http://currency-service:50051"
+
