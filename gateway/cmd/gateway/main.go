@@ -22,12 +22,6 @@ func main() {
 		log.Fatalf("Failed to load config: %v", err)
 	}
 
-	// Инициализация клиента для currency service
-	//currencyServiceClient, err := gatewayHandler.NewCurrencyServiceClient(cfg.CurrencyService.URL)
-	//if err != nil {
-	//	log.Fatalf("Failed to create currency service client: %v", err)
-	//}
-
 	// Инициализация middleware для валидации токенов
 	authMiddleware := middleware.NewAuthMiddleware(cfg.Auth.URL)
 
