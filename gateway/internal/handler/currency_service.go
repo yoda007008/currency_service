@@ -2,7 +2,6 @@ package handler
 
 import (
 	"context"
-	_ "currency_service/crud/handler"
 	kirill_sso_v2 "currency_service/crud/proto/gen/go/kirill.sso.v2"
 
 	"google.golang.org/grpc"

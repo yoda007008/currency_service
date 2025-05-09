@@ -7,17 +7,17 @@ import (
 	"currency_service/crud/repository"
 )
 
-type CurrencyService struct {
+type CurrencyServer struct {
 	kirill_sso_v2.UnimplementedCrudServer
 	Repo *repository.PostgresCurrencyRepository
 }
 
-func (s *CurrencyService) Delete(ctx context.Context, req *kirill_sso_v2.DeleteCurrencyRequest) (*kirill_sso_v2.DeleteCurrencyResponse, error) {
+func (s *CurrencyServer) Delete(ctx context.Context, req *kirill_sso_v2.DeleteCurrencyRequest) (*kirill_sso_v2.DeleteCurrencyResponse, error) {
 	err := s.Repo.Delete(ctx, req.Code)
 	return &kirill_sso_v2.DeleteCurrencyResponse{}, err
 }
 
-func (s *CurrencyService) CreateCurrency(ctx context.Context, req *kirill_sso_v2.CreateCurrencyRequest) (*kirill_sso_v2.CreateCurrencyResponse, error) {
+func (s *CurrencyServer) CreateCurrency(ctx context.Context, req *kirill_sso_v2.CreateCurrencyRequest) (*kirill_sso_v2.CreateCurrencyResponse, error) {
 	err := s.Repo.Create(ctx, dto.Currency{
 		Code:  req.Code,
 		Rate:  req.Rate,
@@ -26,7 +26,7 @@ func (s *CurrencyService) CreateCurrency(ctx context.Context, req *kirill_sso_v2
 	return &kirill_sso_v2.CreateCurrencyResponse{}, err
 }
 
-func (s *CurrencyService) UpdateCurrency(ctx context.Context, req *kirill_sso_v2.UpdateCurrencyRequest) (*kirill_sso_v2.UpdateCurrencyResponse, error) {
+func (s *CurrencyServer) UpdateCurrency(ctx context.Context, req *kirill_sso_v2.UpdateCurrencyRequest) (*kirill_sso_v2.UpdateCurrencyResponse, error) {
 	err := s.Repo.Update(ctx, dto.Currency{
 		Code:  req.CurrencyUpdate.Code,
 		Rate:  req.CurrencyUpdate.Rate,
@@ -35,7 +35,7 @@ func (s *CurrencyService) UpdateCurrency(ctx context.Context, req *kirill_sso_v2
 	return &kirill_sso_v2.UpdateCurrencyResponse{}, err
 }
 
-func (s *CurrencyService) GetCurrency(ctx context.Context, req *kirill_sso_v2.GetCurrencyRequest) (*kirill_sso_v2.GetCurrencyResponse, error) {
+func (s *CurrencyServer) GetCurrency(ctx context.Context, req *kirill_sso_v2.GetCurrencyRequest) (*kirill_sso_v2.GetCurrencyResponse, error) {
 	c, err := s.Repo.Get(ctx, req.Code)
 	if err != nil {
 		return nil, err

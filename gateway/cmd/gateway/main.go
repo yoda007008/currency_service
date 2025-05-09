@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"currency_service/crud/handler"
 	"currency_service/gateway/internal/config"
 	gatewayHandler "currency_service/gateway/internal/handler"
 	"currency_service/gateway/internal/middleware"
@@ -22,16 +23,16 @@ func main() {
 	}
 
 	// Инициализация клиента для currency service
-	currencyService, err := gatewayHandler.NewCurrencyServiceClient(cfg.CurrencyService.URL)
-	if err != nil {
-		log.Fatalf("Failed to create currency service client: %v", err)
-	}
+	//currencyServiceClient, err := gatewayHandler.NewCurrencyServiceClient(cfg.CurrencyService.URL)
+	//if err != nil {
+	//	log.Fatalf("Failed to create currency service client: %v", err)
+	//}
 
 	// Инициализация middleware для валидации токенов
 	authMiddleware := middleware.NewAuthMiddleware(cfg.Auth.URL)
 
 	// Инициализация обработчиков
-	currencyHandler := gatewayHandler.NewCurrencyHandler(currencyService)
+	currencyHandler := gatewayHandler.NewCurrencyHandler(handler.CurrencyServer{})
 
 	// Настройка маршрутов
 	mux := http.NewServeMux()

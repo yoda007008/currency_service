@@ -1,16 +1,17 @@
 package main
 
 import (
-	"currency_service/crud/cmd/migrator"
+	migration "currency_service/crud/cmd/migrator"
 	"currency_service/crud/handler"
 	kirill_sso_v2 "currency_service/crud/proto/gen/go/kirill.sso.v2"
 	"currency_service/crud/repository"
 	"fmt"
-	_ "github.com/lib/pq"
-	"google.golang.org/grpc"
 	"log"
 	"net"
 	"os"
+
+	_ "github.com/lib/pq"
+	"google.golang.org/grpc"
 )
 
 func main() {
@@ -35,7 +36,7 @@ func main() {
 	}
 
 	grpcServer := grpc.NewServer()
-	kirill_sso_v2.RegisterCrudServer(grpcServer, &handler.CurrencyService{Repo: repo})
+	kirill_sso_v2.RegisterCrudServer(grpcServer, &handler.CurrencyServer{Repo: repo})
 
 	log.Println("gRPC server running on :50051")
 	if err := grpcServer.Serve(lis); err != nil {
