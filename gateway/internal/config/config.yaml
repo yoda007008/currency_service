@@ -5,6 +5,8 @@ server:
 auth:
   url: "http://localhost:8081/validate"
 
-currency_service:
+currency-service:
   url: "http://currency-service:50051"
 
+secret_key:
+  token: ""
