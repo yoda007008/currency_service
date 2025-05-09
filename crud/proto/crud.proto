@@ -44,7 +44,6 @@ message UpdateCurrencyResponse {
 
 message DeleteCurrencyRequest {
   string code = 1;
-  string date = 2;
 }
 
 message DeleteCurrencyResponse {
