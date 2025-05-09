@@ -7,12 +7,12 @@ import (
 )
 
 type AuthMiddleware struct {
-	authURL string
+	AuthURL string
 }
 
 func NewAuthMiddleware(authURL string) *AuthMiddleware {
 	return &AuthMiddleware{
-		authURL: authURL,
+		AuthURL: authURL,
 	}
 }
 
@@ -34,7 +34,7 @@ func (m *AuthMiddleware) Validate(next http.HandlerFunc) http.HandlerFunc {
 		}
 
 		// Отправляем запрос на сервис аутентификации
-		resp, err := http.Post(m.authURL, "application/json", bytes.NewBuffer(reqBody))
+		resp, err := http.Post(m.AuthURL, "application/json", bytes.NewBuffer(reqBody))
 		if err != nil {
 			http.Error(w, "Failed to validate token", http.StatusInternalServerError)
 			return

@@ -9,4 +9,4 @@ currency-service:
   url: "http://currency-service:50051"
 
 secret_key:
-  token: ""
+  token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0IiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxMjM0fQ.8oc-KZuuLCNwvkkpX2nFA4-YcDwcg2Y8e-WtvM--KSM"

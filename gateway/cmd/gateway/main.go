@@ -27,7 +27,6 @@ func main() {
 
 	// инициализация обработчиков
 	currencyHandler := gatewayHandler.NewCurrencyHandler(handler.CurrencyServer{})
-
 	// настройка маршрутов
 	mux := http.NewServeMux()
 	mux.HandleFunc("/currency/get", authMiddleware.Validate(currencyHandler.GetCurrency))
