@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-var jwtSecret []byte("token")
+var jwtSecret = []byte("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0IiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxMjM0fQ.8oc-KZuuLCNwvkkpX2nFA4-YcDwcg2Y8e-WtvM--KSM")
 
 func ValidateToken(token string) bool {
 	if token == "" {
@@ -15,7 +15,7 @@ func ValidateToken(token string) bool {
 
 	token = strings.TrimPrefix(token, "Bearer ")
 
-	tokenParce, err := jwt.Parse(token, func (j *jwt.Token) (interface{}, error) {
+	tokenParce, err := jwt.Parse(token, func(j *jwt.Token) (interface{}, error) {
 		if _, ok := j.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, errors.New("invalid token")
 		}
