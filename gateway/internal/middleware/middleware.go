@@ -6,7 +6,7 @@ import (
 	"log"
 )
 
-var jwtSecret = []byte("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTc0NjkwMjMwOH0.C8EVxabGNSAN4Z7ErGRM99UNBZ2dlbOi7J50m6BQeW4")
+var jwtSecret = []byte("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNzQ2OTUyNTg0fQ.7KvKNt4nQqSo0u9vTPssMAn_56onpZfrAxo5pUAng4g")
 
 func ValidateToken(token string) bool {
 	if token == "" {
