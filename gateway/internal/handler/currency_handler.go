@@ -4,7 +4,9 @@ import (
 	"context"
 	"currency_service/crud/handler"
 	kirill_sso_v2 "currency_service/crud/proto/gen/go/kirill.sso.v2"
+	"currency_service/gateway/internal/dto"
 	"currency_service/gateway/internal/middleware"
+	"encoding/json"
 	"net/http"
 	"strconv"
 )
@@ -16,6 +18,8 @@ type CurrencyHandler struct {
 func NewCurrencyHandler(cs handler.CurrencyServer) *CurrencyHandler {
 	return &CurrencyHandler{CurrencyService: cs}
 }
+
+var input dto.CurrencyInput
 
 func (h *CurrencyHandler) GetCurrency(w http.ResponseWriter, r *http.Request) {
 	tokenString := r.Header.Get("Authorization")
@@ -51,35 +55,31 @@ func (h *CurrencyHandler) CreateCurrency(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	code := r.URL.Query().Get("code")
-	if code == "" {
+	err := json.NewDecoder(r.Body).Decode(&input)
+	if err != nil {
+		http.Error(w, "Invalid JSON body", http.StatusBadRequest)
+		return
+	}
+
+	if input.Code == "" {
 		http.Error(w, "Currency code is required", http.StatusBadRequest)
 		return
 	}
 
-	rate := r.URL.Query().Get("code")
-	if rate == "" {
+	if input.Rate == "" {
 		http.Error(w, "Currency rate is required", http.StatusBadRequest)
 		return
 	}
 
-	var value string
-
-	valueFloat, err := strconv.ParseFloat(value, 64)
-	if err != nil {
-		http.Error(w, "Invalid currency value format", http.StatusBadRequest)
-		return
-	}
-
-	if valueFloat <= 0 {
+	if input.Value <= 0 {
 		http.Error(w, "Currency value must be greater than 0", http.StatusBadRequest)
 		return
 	}
 
 	req := &kirill_sso_v2.CreateCurrencyRequest{
-		Code:  code,
-		Rate:  rate,
-		Value: valueFloat,
+		Code:  input.Code,
+		Rate:  input.Rate,
+		Value: input.Value,
 	}
 
 	ctx := context.Background()
@@ -89,9 +89,10 @@ func (h *CurrencyHandler) CreateCurrency(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
+	w.Write([]byte(`{"status":"created"}`))
 }
+
 func (h *CurrencyHandler) UpdateCurrency(w http.ResponseWriter, r *http.Request) {
 	tokenString := r.Header.Get("Authorization")
 	if !middleware.ValidateToken(tokenString) {
