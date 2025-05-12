@@ -2,12 +2,13 @@ package main
 
 import (
 	"context"
-	"currency_service/crud/handler"
+	kirill_sso_v2 "currency_service/crud/proto/gen/go/kirill.sso.v2"
 	"currency_service/gateway/internal/config"
 	gatewayHandler "currency_service/gateway/internal/handler"
 	"currency_service/gateway/internal/middleware"
 	"encoding/json"
 	"fmt"
+	"google.golang.org/grpc"
 	"log"
 	"net/http"
 	"os"
@@ -30,7 +31,19 @@ func main() {
 	authMiddleware := middleware.NewAuthMiddleware(cfg.Auth.URL)
 
 	// инициализация обработчиков
-	currencyHandler := gatewayHandler.NewCurrencyHandler(handler.CurrencyServer{})
+	conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure()) // временно без TLS
+	if err != nil {
+		log.Fatalf("Failed to connect to gRPC server: %v", err)
+	}
+	defer conn.Close()
+
+	// Создание gRPC клиента
+	grpcClient := kirill_sso_v2.NewCrudClient(conn)
+
+	// Передаём gRPC клиента в HTTP handler
+	currencyHandler := gatewayHandler.NewCurrencyHandler(grpcClient)
+	//repo := repository.PostgresCurrencyRepository{} // <-- передайте нужные зависимости
+	//currencyHandler := gatewayHandler.NewCurrencyHandler(handler.CurrencyServer{})
 	// настройка маршрутов
 	mux := http.NewServeMux()
 	mux.HandleFunc("/currency/get", authMiddleware.Validate(currencyHandler.GetCurrency))

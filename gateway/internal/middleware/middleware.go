@@ -6,7 +6,7 @@ import (
 	"log"
 )
 
-var jwtSecret = []byte("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNzQ2OTUyNTg0fQ.7KvKNt4nQqSo0u9vTPssMAn_56onpZfrAxo5pUAng4g")
+var jwtSecret = []byte("a-string-secret-at-least-256-bits-long")
 
 func ValidateToken(token string) bool {
 	if token == "" {

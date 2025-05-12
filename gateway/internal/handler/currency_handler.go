@@ -2,7 +2,6 @@ package handler
 
 import (
 	"context"
-	"currency_service/crud/handler"
 	kirill_sso_v2 "currency_service/crud/proto/gen/go/kirill.sso.v2"
 	"currency_service/gateway/internal/dto"
 	"currency_service/gateway/internal/middleware"
@@ -12,14 +11,12 @@ import (
 )
 
 type CurrencyHandler struct {
-	CurrencyService handler.CurrencyServer
+	CurrencyService kirill_sso_v2.CrudClient
 }
 
-func NewCurrencyHandler(cs handler.CurrencyServer) *CurrencyHandler {
-	return &CurrencyHandler{CurrencyService: cs}
+func NewCurrencyHandler(client kirill_sso_v2.CrudClient) *CurrencyHandler {
+	return &CurrencyHandler{CurrencyService: client}
 }
-
-var input dto.CurrencyInput
 
 func (h *CurrencyHandler) GetCurrency(w http.ResponseWriter, r *http.Request) {
 	tokenString := r.Header.Get("Authorization")
@@ -54,6 +51,8 @@ func (h *CurrencyHandler) CreateCurrency(w http.ResponseWriter, r *http.Request)
 		http.Error(w, "Unauthorized", http.StatusUnauthorized)
 		return
 	}
+
+	var input dto.CurrencyInputCreate
 
 	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
@@ -169,5 +168,5 @@ func (h *CurrencyHandler) DeleteCurrency(w http.ResponseWriter, r *http.Request)
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusCreated)
+	w.WriteHeader(http.StatusAccepted)
 }
