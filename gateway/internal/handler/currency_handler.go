@@ -7,7 +7,6 @@ import (
 	"currency_service/gateway/internal/middleware"
 	"encoding/json"
 	"net/http"
-	"strconv"
 )
 
 type CurrencyHandler struct {
@@ -25,26 +24,32 @@ func (h *CurrencyHandler) GetCurrency(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	code := r.URL.Query().Get("code")
-	if code == "" {
+	var input dto.CurrencyGet
+
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
+		http.Error(w, "Invalid JSON body", http.StatusBadRequest)
+		return
+	}
+
+	if input.Code == "" {
 		http.Error(w, "Currency code is required", http.StatusBadRequest)
 		return
 	}
 
 	req := &kirill_sso_v2.GetCurrencyRequest{
-		Code: code,
+		Code: input.Code,
 	}
 
 	ctx := context.Background()
-	_, err := h.CurrencyService.GetCurrency(ctx, req)
+	resp, err := h.CurrencyService.GetCurrency(ctx, req)
 	if err != nil {
-		http.Error(w, "Fail to fetch currency code", http.StatusInternalServerError)
+		http.Error(w, "Failed to fetch currency: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
 
 	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(resp.Currency)
 }
-
 func (h *CurrencyHandler) CreateCurrency(w http.ResponseWriter, r *http.Request) {
 	tokenString := r.Header.Get("Authorization")
 	if !middleware.ValidateToken(tokenString) {
@@ -111,38 +116,36 @@ func (h *CurrencyHandler) UpdateCurrency(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	var value string
+	var input dto.CurrencyUpdate
 
-	valueFloat, err := strconv.ParseFloat(value, 64)
-	if err != nil {
-		http.Error(w, "Invalid currency value format", http.StatusBadRequest)
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
+		http.Error(w, "Invalid JSON body", http.StatusBadRequest)
 		return
 	}
 
-	if valueFloat <= 0 {
-		http.Error(w, "Currency value must be greater than 0", http.StatusBadRequest)
+	if input.Code == "" || input.Rate == "" || input.Value <= 0 {
+		http.Error(w, "All fields are required and value must be > 0", http.StatusBadRequest)
 		return
 	}
 
 	req := &kirill_sso_v2.UpdateCurrencyRequest{
 		CurrencyUpdate: &kirill_sso_v2.CurrencyRate{
-			Code:  code,
-			Rate:  rate,
-			Value: valueFloat,
+			Code:  input.Code,
+			Rate:  input.Rate,
+			Value: input.Value,
 		},
 	}
 
 	ctx := context.Background()
-	_, err = h.CurrencyService.UpdateCurrency(ctx, req)
+	_, err := h.CurrencyService.UpdateCurrency(ctx, req)
 	if err != nil {
-		http.Error(w, "Failed to update currency", http.StatusInternalServerError)
+		http.Error(w, "Failed to update currency: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusCreated)
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte(`{"status":"updated"}`))
 }
-
 func (h *CurrencyHandler) DeleteCurrency(w http.ResponseWriter, r *http.Request) {
 	tokenString := r.Header.Get("Authorization")
 	if !middleware.ValidateToken(tokenString) {
@@ -150,23 +153,29 @@ func (h *CurrencyHandler) DeleteCurrency(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	code := r.URL.Query().Get("code")
-	if code == "" {
+	var input dto.CurrencyDelete
+
+	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
+		http.Error(w, "Invalid JSON body", http.StatusBadRequest)
+		return
+	}
+
+	if input.Code == "" {
 		http.Error(w, "Currency code is required", http.StatusBadRequest)
 		return
 	}
 
 	req := &kirill_sso_v2.DeleteCurrencyRequest{
-		Code: code,
+		Code: input.Code,
 	}
 
 	ctx := context.Background()
 	_, err := h.CurrencyService.Delete(ctx, req)
 	if err != nil {
-		http.Error(w, "Failed to delete currency", http.StatusInternalServerError)
+		http.Error(w, "Failed to delete currency: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusAccepted)
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte(`{"status":"deleted"}`))
 }

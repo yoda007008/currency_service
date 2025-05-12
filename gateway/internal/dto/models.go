@@ -25,6 +25,6 @@ type CurrencyDelete struct {
 	Code string `json:"code"`
 }
 
-type Currency struct {
+type CurrencyGet struct {
 	Code string `json:"code"`
 }
