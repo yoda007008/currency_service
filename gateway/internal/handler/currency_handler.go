@@ -104,20 +104,7 @@ func (h *CurrencyHandler) UpdateCurrency(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	code := r.URL.Query().Get("code")
-	if code == "" {
-		http.Error(w, "Currency code is required", http.StatusBadRequest)
-		return
-	}
-
-	rate := r.URL.Query().Get("code")
-	if rate == "" {
-		http.Error(w, "Currency rate is required", http.StatusBadRequest)
-		return
-	}
-
 	var input dto.CurrencyUpdate
-
 	if err := json.NewDecoder(r.Body).Decode(&input); err != nil {
 		http.Error(w, "Invalid JSON body", http.StatusBadRequest)
 		return
@@ -146,6 +133,7 @@ func (h *CurrencyHandler) UpdateCurrency(w http.ResponseWriter, r *http.Request)
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte(`{"status":"updated"}`))
 }
+
 func (h *CurrencyHandler) DeleteCurrency(w http.ResponseWriter, r *http.Request) {
 	tokenString := r.Header.Get("Authorization")
 	if !middleware.ValidateToken(tokenString) {
