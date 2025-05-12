@@ -6,6 +6,7 @@ import (
 	"currency_service/gateway/internal/config"
 	gatewayHandler "currency_service/gateway/internal/handler"
 	"currency_service/gateway/internal/middleware"
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -16,6 +17,9 @@ import (
 )
 
 func main() {
+	// запуск auth сервиса
+	startAuthService()
+
 	// загрузка конфигурации
 	cfg, err := config.LoadConfig("gateway/internal/config/config.yaml")
 	if err != nil {
@@ -66,4 +70,31 @@ func main() {
 	}
 
 	log.Println("Server exited properly")
+}
+
+func startAuthService() {
+	http.HandleFunc("/validate", func(w http.ResponseWriter, r *http.Request) {
+		type TokenRequest struct {
+			Token string `json:"token"`
+		}
+		var req TokenRequest
+		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+			http.Error(w, "Invalid request", http.StatusBadRequest)
+			return
+		}
+
+		if !middleware.ValidateToken(req.Token) {
+			http.Error(w, "Unauthorized", http.StatusUnauthorized)
+			return
+		}
+
+		w.WriteHeader(http.StatusOK)
+	})
+
+	go func() {
+		log.Println("Starting auth service on :8081")
+		if err := http.ListenAndServe(":8081", nil); err != nil {
+			log.Fatalf("Auth service failed: %v", err)
+		}
+	}()
 }
