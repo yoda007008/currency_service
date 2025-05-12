@@ -7,6 +7,3 @@ auth:
 
 currency-service:
   url: "http://currency-service:50051"
-
-secret_key:
-  token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTc0NjkwMjMwOH0.C8EVxabGNSAN4Z7ErGRM99UNBZ2dlbOi7J50m6BQeW4"
