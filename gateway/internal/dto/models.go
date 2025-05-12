@@ -2,12 +2,6 @@ package dto
 
 import "net/http"
 
-type CurrencyInputCreate struct {
-	Code  string  `json:"code"`
-	Rate  string  `json:"rate"`
-	Value float64 `json:"value"`
-}
-
 type GatewayMethods interface {
 	GetCurrency(w http.ResponseWriter, r *http.Request)
 	CreateCurrency(w http.ResponseWriter, r *http.Request)
@@ -15,8 +9,22 @@ type GatewayMethods interface {
 	DeleteCurrency(w http.ResponseWriter, r *http.Request)
 }
 
-type CurrencyInputUpdate struct {
+type CurrencyInputCreate struct {
+	Code  string  `json:"code"`
+	Rate  string  `json:"rate"`
+	Value float64 `json:"value"`
 }
 
-type CurrencyInputDelete struct {
+type CurrencyUpdate struct {
+	Code  string  `json:"code"`
+	Rate  string  `json:"rate"`
+	Value float64 `json:"value"`
+}
+
+type CurrencyDelete struct {
+	Code string `json:"code"`
+}
+
+type Currency struct {
+	Code string `json:"code"`
 }
