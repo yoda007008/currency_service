@@ -5,7 +5,7 @@ import (
 	"currency_service/crud/handler"
 	kirill_sso_v2 "currency_service/crud/proto/gen/go/kirill.sso.v2"
 	"currency_service/crud/repository"
-	"fmt"
+	"github.com/robfig/cron/v3"
 	"log"
 	"net"
 	"os"
@@ -16,7 +16,6 @@ import (
 
 func main() {
 	connStr := os.Getenv("DATABASE_URL")
-	fmt.Println(connStr)
 
 	migrationsPath := os.Getenv("MIGRATIONS_PATH")
 	if err := migration.RunMigrations(connStr, migrationsPath); err != nil {
@@ -27,6 +26,9 @@ func main() {
 	if err != nil {
 		log.Fatal("database is not created", err)
 	}
+
+	c := cron.New()
+	c.AddFunc("0 0 * * *", func() { updateCurrencyRates() })
 
 	grpcPort := os.Getenv("GRPC_PORT")
 
