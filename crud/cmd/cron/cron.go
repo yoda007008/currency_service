@@ -19,7 +19,7 @@ type Cron struct {
 func UpdateCurrencyRates(db *pgxpool.Pool) {
 	fmt.Println("Обновление курсов валют", time.Now())
 
-	resp, err := http.Get("https://latest.currency-api.pages.dev/v1/currencies/rub.json")
+	resp, err := http.Get("https://www.floatrates.com/daily/rub.json")
 	if err != nil {
 		log.Println("Ошибка при запросе курсов, пожалуйста попробуйте еще раз")
 		return
