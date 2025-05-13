@@ -28,6 +28,10 @@ func NewPostgresCurrencyRepository(connString string) (*PostgresCurrencyReposito
 	return &PostgresCurrencyRepository{db: db}, nil
 }
 
+func (r *PostgresCurrencyRepository) GetDB() *pgxpool.Pool {
+	return r.db
+}
+
 func (r *PostgresCurrencyRepository) Create(ctx context.Context, c dto.Currency) error {
 	_, err := r.db.Exec(ctx, `INSERT INTO currency_rates(code, rate, value) VALUES ($1, $2, $3)`, c.Code, c.Rate, c.Value)
 	return err

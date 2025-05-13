@@ -1,6 +1,7 @@
 package main
 
 import (
+	cronius "currency_service/crud/cmd/cron"
 	migration "currency_service/crud/cmd/migrator"
 	"currency_service/crud/handler"
 	kirill_sso_v2 "currency_service/crud/proto/gen/go/kirill.sso.v2"
@@ -28,7 +29,14 @@ func main() {
 	}
 
 	c := cron.New()
-	c.AddFunc("0 0 * * *", func() { updateCurrencyRates() })
+	c.AddFunc("@every 1h", func() {
+		log.Println("Running scheduled currency update")
+		cronius.UpdateCurrencyRates(repo.GetDB())
+	})
+	c.Start()
+
+	// Запуск сразу при старте
+	cronius.UpdateCurrencyRates(repo.GetDB())
 
 	grpcPort := os.Getenv("GRPC_PORT")
 
@@ -40,7 +48,7 @@ func main() {
 	grpcServer := grpc.NewServer()
 	kirill_sso_v2.RegisterCrudServer(grpcServer, &handler.CurrencyServer{Repo: repo})
 
-	log.Println("gRPC server running on :50051")
+	log.Println("gRPC server running on", grpcPort)
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("gRPC serve error: %v", err)
 	}

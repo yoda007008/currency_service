@@ -1,9 +1,10 @@
 package cron
 
 import (
-	"database/sql"
+	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/jackc/pgx/v5/pgxpool"
 	_ "github.com/lib/pq"
 	"io/ioutil"
 	"log"
@@ -15,7 +16,7 @@ type Cron struct {
 	Rub map[string]float64 `json:"rub"`
 }
 
-func updateCurrencyRates(db *sql.DB) {
+func UpdateCurrencyRates(db *pgxpool.Pool) {
 	fmt.Println("Обновление курсов валют", time.Now())
 
 	resp, err := http.Get("https://latest.currency-api.pages.dev/v1/currencies/rub.json")
@@ -37,10 +38,11 @@ func updateCurrencyRates(db *sql.DB) {
 	}
 
 	for code, value := range rates.Rub {
-		_, err = db.Exec(`INSERT INTO currency_rates (code, rate, value)
-								VALUES ($1, $2, $3) ON CONFLICT (code) 
-								DO UPDATE SET rate=$2, value=$3`,
-			code, "RUB", value)
+		_, err = db.Exec(context.Background(), `
+	INSERT INTO currency_rates (code, rate, value)
+	VALUES ($1, $2, $3)
+	ON CONFLICT (code) DO UPDATE SET rate=$2, value=$3
+`, code, "RUB", value)
 		if err != nil {
 			log.Printf("Ошибка вставки данных для валюты", code, err)
 		}
