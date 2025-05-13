@@ -6,8 +6,22 @@
 
 Рекомендую ознакомиться с библиотекой [Task](https://taskfile.dev/) прежде чем запускать проект 
 
-Установите утилиту Task, затем выполните команду
+Установите утилиту Task, затем выполните команду:
 
 ```plaintext
-    task rundb   
+task rundb   
 ```
+
+Далее установите нужные зависимости и запустите Currency Service:
+
+```plaintext
+go build currency_service/crud/cmd/currency
+```
+
+И Gateway Service
+
+```plaintext
+go build currency_service/gateway/cmd/gateway
+```
+
+Далее протестируйте при помощи клиента, например [Postman](https://www.postman.com/)
