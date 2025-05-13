@@ -41,7 +41,6 @@ func UpdateCurrencyRates(db *pgxpool.Pool) {
 		_, err = db.Exec(context.Background(), `
 	INSERT INTO currency_rates (code, rate, value)
 	VALUES ($1, $2, $3)
-	ON CONFLICT (code) DO UPDATE SET rate=$2, value=$3
 `, code, "RUB", value)
 		if err != nil {
 			log.Printf("Ошибка вставки данных для валюты", code, err)
