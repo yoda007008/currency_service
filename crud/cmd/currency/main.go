@@ -29,14 +29,16 @@ func main() {
 	}
 
 	c := cron.New()
+	exemp := &cronius.Cron{}
 	c.AddFunc("@every 1h", func() {
 		log.Println("Running scheduled currency update")
-		cronius.UpdateCurrencyRates(repo.GetDB())
+		//cronius.UpdateCurrencyRates(repo.GetDB())
+		exemp.UpdateCurrencyRates()
 	})
 	c.Start()
 
 	// Запуск сразу при старте
-	cronius.UpdateCurrencyRates(repo.GetDB())
+	exemp.UpdateCurrencyRates()
 
 	grpcPort := os.Getenv("GRPC_PORT")
 
