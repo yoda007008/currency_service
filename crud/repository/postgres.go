@@ -16,15 +16,6 @@ func NewPostgresCurrencyRepository(connString string) (*PostgresCurrencyReposito
 	if err != nil {
 		return nil, fmt.Errorf("fail to connect to database", err)
 	}
-
-	_, err = db.Exec(context.Background(), `
-			CREATE TABLE IF NOT EXISTS currency_rates (
-    		code VARCHAR PRIMARY KEY,
-            rate VARCHAR NOT NULL,
-            value DOUBLE PRECISION NOT NULL);`)
-	if err != nil {
-		return nil, fmt.Errorf("fail to create table", err)
-	}
 	return &PostgresCurrencyRepository{db: db}, nil
 }
 

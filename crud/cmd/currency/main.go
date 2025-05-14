@@ -18,11 +18,11 @@ import (
 func main() {
 	connStr := os.Getenv("DATABASE_URL")
 
+	// миграции
 	migrationsPath := os.Getenv("MIGRATIONS_PATH")
 	if err := migration.RunMigrations(connStr, migrationsPath); err != nil {
 		log.Println("Migrations is not success", err)
 	}
-	// миграции
 	repo, err := repository.NewPostgresCurrencyRepository(connStr)
 	if err != nil {
 		log.Fatal("database is not created", err)

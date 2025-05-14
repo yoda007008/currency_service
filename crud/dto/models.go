@@ -18,3 +18,5 @@ type CurrencyRepository interface {
 	Get(ctx context.Context, code string) (Currency, error)
 	GetDB() *pgxpool.Pool
 }
+type Cron interface {
+}
