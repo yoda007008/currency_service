@@ -9,17 +9,21 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"time"
 )
 
 type Cron struct {
 	Rub map[string]float64 `json:"rub"`
+	db  *pgxpool.Pool
 }
 
-func UpdateCurrencyRates(db *pgxpool.Pool) {
+func (c *Cron) UpdateCurrencyRates() {
 	fmt.Println("Обновление курсов валют", time.Now())
 
-	resp, err := http.Get("https://www.floatrates.com/daily/rub.json")
+	api := os.Getenv("EXTERNAL_API")
+
+	resp, err := http.Get(api)
 	if err != nil {
 		log.Println("Ошибка при запросе курсов, пожалуйста попробуйте еще раз")
 		return
@@ -38,7 +42,7 @@ func UpdateCurrencyRates(db *pgxpool.Pool) {
 	}
 
 	for code, value := range rates.Rub {
-		_, err = db.Exec(context.Background(), `
+		_, err = c.db.Exec(context.Background(), `
 	INSERT INTO currency_rates (code, rate, value)
 	VALUES ($1, $2, $3)
 `, code, "RUB", value)
