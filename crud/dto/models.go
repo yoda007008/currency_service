@@ -1,6 +1,9 @@
 package dto
 
-import "context"
+import (
+	"context"
+	"github.com/jackc/pgx/v5/pgxpool"
+)
 
 type Currency struct {
 	Code  string
@@ -13,4 +16,5 @@ type CurrencyRepository interface {
 	Delete(ctx context.Context, code string) error
 	Update(ctx context.Context, c Currency) error
 	Get(ctx context.Context, code string) (Currency, error)
+	GetDB() *pgxpool.Pool
 }
