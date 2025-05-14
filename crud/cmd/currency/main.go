@@ -22,12 +22,13 @@ func main() {
 	if err := migration.RunMigrations(connStr, migrationsPath); err != nil {
 		log.Println("Migrations is not success", err)
 	}
-
+	// миграции
 	repo, err := repository.NewPostgresCurrencyRepository(connStr)
 	if err != nil {
 		log.Fatal("database is not created", err)
 	}
 
+	// крон сервис
 	c := cron.New()
 	exemp := &cronius.Cron{}
 	c.AddFunc("@every 1h", func() {
