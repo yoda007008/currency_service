@@ -32,7 +32,6 @@ func main() {
 	exemp := &cronius.Cron{}
 	c.AddFunc("@every 1h", func() {
 		log.Println("Running scheduled currency update")
-		//cronius.UpdateCurrencyRates(repo.GetDB())
 		exemp.UpdateCurrencyRates()
 	})
 	c.Start()
