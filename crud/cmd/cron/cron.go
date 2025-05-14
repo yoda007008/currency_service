@@ -36,7 +36,7 @@ func (c *Cron) UpdateCurrencyRates() {
 		return
 	}
 
-	var rates Cron
+	var rates Cron // это надо убрать как-то
 	if err := json.Unmarshal(body, &rates); err != nil {
 		log.Println("Ошибка парсина JSON")
 	}

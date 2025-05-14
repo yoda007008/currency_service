@@ -17,6 +17,5 @@ type CurrencyRepository interface {
 	Update(ctx context.Context, c Currency) error
 	Get(ctx context.Context, code string) (Currency, error)
 	GetDB() *pgxpool.Pool
-}
-type Cron interface {
+	//InsertRate() типо метод, чтобы вынести cron
 }
