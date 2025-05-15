@@ -44,3 +44,11 @@ func (r *PostgresCurrencyRepository) Delete(ctx context.Context, code string) er
 	_, err := r.db.Exec(ctx, `DELETE FROM currency_rates WHERE code=$1`, code)
 	return err
 }
+
+func (r *PostgresCurrencyRepository) CronInsertRate(ctx context.Context, code, base string, value float64) error {
+	_, err := r.db.Exec(ctx, `
+	INSERT INTO currency_rates (code, rate, value)
+	VALUES ($1, $2, $3)`,
+		code, base, value)
+	return err
+}

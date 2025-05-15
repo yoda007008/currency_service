@@ -33,7 +33,7 @@ func main() {
 	// инициализация обработчиков
 	conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure()) // временно без TLS
 	if err != nil {
-		log.Fatalf("Failed to connect to gRPC server: %v", err)
+		log.Fatalf("Failed to connect to gRPC service: %v", err)
 	}
 	defer conn.Close()
 
@@ -63,15 +63,15 @@ func main() {
 
 	// запуск сервера в отдельной горутине
 	go func() {
-		log.Printf("Starting server on %s:%d", cfg.Server.Host, cfg.Server.Port)
+		log.Printf("Starting service on %s:%d", cfg.Server.Host, cfg.Server.Port)
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			log.Fatalf("Failed to start server: %v", err)
+			log.Fatalf("Failed to start service: %v", err)
 		}
 	}()
 
 	// ожидание сигнала завершения
 	<-stop
-	log.Println("Shutting down server...")
+	log.Println("Shutting down service...")
 
 	// cоздание контекста с таймаутом для graceful shutdown
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)

@@ -1,47 +1,38 @@
 package main
 
 import (
-	"context"
-	"encoding/json"
-	"fmt"
+	"currency_service/crud/repository"
+	"currency_service/crud/service"
+	"currency_service/crud/worker"
 	_ "github.com/lib/pq"
-	"io/ioutil"
 	"log"
-	"net/http"
 	"os"
+	"os/signal"
+	"syscall"
 	"time"
 )
 
-func (c *Cron) UpdateCurrencyRates() {
-	fmt.Println("Обновление курсов валют", time.Now())
+func main() {
+	connStr := os.Getenv("DATABASE_URL")
 
-	api := os.Getenv("EXTERNAL_API")
-
-	resp, err := http.Get(api)
+	repo, err := repository.NewPostgresCurrencyRepository(connStr)
 	if err != nil {
-		log.Println("Ошибка при запросе курсов, пожалуйста попробуйте еще раз")
-		return
-	}
-	defer resp.Body.Close()
-
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		log.Println("Ошибка чтения ответа")
-		return
+		log.Fatal("not connect to database", err)
 	}
 
-	var rates Cron // это надо убрать как-то
-	if err := json.Unmarshal(body, &rates); err != nil {
-		log.Println("Ошибка парсина JSON")
-	}
+	svc := service.CronCurrencyServer{Repo: repo}
 
-	for code, value := range rates.Rub {
-		_, err = c.db.Exec(context.Background(), `
-	INSERT INTO currency_rates (code, rate, value)
-	VALUES ($1, $2, $3)
-`, code, "RUB", value)
-		if err != nil {
-			log.Printf("Ошибка вставки данных для валюты", code, err)
-		}
-	}
+	cronJob := worker.NewCron(&svc)
+	cronJob.Start()
+
+	stop := make(chan os.Signal, 1)
+	signal.Notify(stop, os.Interrupt, syscall.SIGTERM)
+
+	<-stop
+
+	log.Println("Stop cron")
+
+	cronJob.Stop()
+
+	time.Sleep(1 * time.Second)
 }

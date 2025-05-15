@@ -31,7 +31,7 @@ func (m *AuthMiddleware) Validate(next http.HandlerFunc) http.HandlerFunc {
 			"token": token,
 		})
 		if err != nil {
-			http.Error(w, "Internal server error", http.StatusInternalServerError)
+			http.Error(w, "Internal service error", http.StatusInternalServerError)
 			return
 		}
 

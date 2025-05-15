@@ -83,7 +83,7 @@ func (c *crudClient) GetCurrency(ctx context.Context, in *GetCurrencyRequest, op
 	return out, nil
 }
 
-// CrudServer is the server API for Crud service.
+// CrudServer is the service API for Crud service.
 // All implementations must embed UnimplementedCrudServer
 // for forward compatibility.
 type CrudServer interface {
