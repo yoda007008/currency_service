@@ -1,10 +1,9 @@
-package cron
+package main
 
 import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/jackc/pgx/v5/pgxpool"
 	_ "github.com/lib/pq"
 	"io/ioutil"
 	"log"
@@ -12,11 +11,6 @@ import (
 	"os"
 	"time"
 )
-
-type Cron struct {
-	Rub map[string]float64 `json:"rub"`
-	db  *pgxpool.Pool
-}
 
 func (c *Cron) UpdateCurrencyRates() {
 	fmt.Println("Обновление курсов валют", time.Now())
