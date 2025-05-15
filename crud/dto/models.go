@@ -17,5 +17,9 @@ type CurrencyRepository interface {
 	Update(ctx context.Context, c Currency) error
 	Get(ctx context.Context, code string) (Currency, error)
 	GetDB() *pgxpool.Pool
-	//InsertRate() типо метод, чтобы вынести cron
+	CronInsertRate(ctx context.Context, code, base string, value float64) error //типо метод, чтобы вынести cron
+}
+
+type CronCurrencyRates struct {
+	Rub map[string]float64 `json:"rub"`
 }
