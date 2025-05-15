@@ -8,6 +8,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -18,8 +19,8 @@ type CronCurrencyServer struct {
 func (s *CronCurrencyServer) CronUpdateCurrencyRates() {
 	log.Println("Обновление курсов валют", time.Now())
 
-	//api := os.Getenv("EXTERNAL_API")
-	api := "https://www.floatrates.com/daily/rub.json"
+	api := os.Getenv("EXTERNAL_API")
+
 	resp, err := http.Get(api)
 	if err != nil {
 		log.Println("Ошибка при запросе курсов:", err)
