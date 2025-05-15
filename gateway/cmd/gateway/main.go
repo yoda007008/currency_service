@@ -42,8 +42,7 @@ func main() {
 
 	// Передаём gRPC клиента в HTTP handler
 	currencyHandler := gatewayHandler.NewCurrencyHandler(grpcClient)
-	//repo := repository.PostgresCurrencyRepository{} // <-- передайте нужные зависимости
-	//currencyHandler := gatewayHandler.NewCurrencyHandler(handler.CurrencyServer{})
+
 	// настройка маршрутов
 	mux := http.NewServeMux()
 	mux.HandleFunc("/currency/get", authMiddleware.Validate(currencyHandler.GetCurrency))
