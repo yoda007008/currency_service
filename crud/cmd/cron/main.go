@@ -17,7 +17,7 @@ func main() {
 
 	repo, err := repository.NewPostgresCurrencyRepository(connStr)
 	if err != nil {
-		log.Fatal("not connect to database", err)
+		log.Fatalf("not connect to database", err)
 	}
 
 	svc := service.CronCurrencyServer{Repo: repo}
