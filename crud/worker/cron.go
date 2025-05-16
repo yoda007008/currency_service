@@ -3,6 +3,7 @@ package worker
 import (
 	"context"
 	"currency_service/crud/service"
+	"fmt"
 	"log"
 	"time"
 )
@@ -33,7 +34,11 @@ func (c *Cron) Start() {
 				log.Println("Stop worker")
 				return
 			case <-c.ticker.C:
-				c.svc.CronUpdateCurrencyRates()
+				err := c.svc.CronUpdateCurrencyRates()
+				if err != nil {
+					fmt.Errorf("Failed to start worker", err)
+					return
+				}
 			}
 		}
 	}()
