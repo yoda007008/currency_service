@@ -3,11 +3,20 @@ package clients
 import (
 	"log"
 	"net/http"
+	"os"
 	"time"
 )
 
 type CronAPIClient struct {
 	url string
+}
+
+func NewClient() *CronAPIClient {
+	url := os.Getenv("EXTERNAL_API")
+	if url == "" {
+		log.Fatal("no environment variable EXTERNAL_API")
+	}
+	return &CronAPIClient{url: url}
 }
 
 func (c *CronAPIClient) RequestToClient() (*http.Response, error) {
