@@ -23,7 +23,10 @@ func main() {
 
 	apiClient := clients.NewClient()
 
-	svc := service.CronCurrencyServer{Repo: repo, APIClient: apiClient}
+	svc := service.CronCurrencyServer{
+		Repo:      repo,
+		APIClient: apiClient,
+	}
 
 	cronJob := worker.NewCron(&svc)
 	cronJob.Start()
