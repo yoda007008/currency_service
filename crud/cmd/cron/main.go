@@ -15,13 +15,14 @@ import (
 
 func main() {
 	connStr := os.Getenv("DATABASE_URL")
+	url := os.Getenv("EXTERNAL_API")
 
 	repo, err := repository.NewPostgresCurrencyRepository(connStr)
 	if err != nil {
 		log.Fatalf("not connect to database", err)
 	}
 
-	apiClient := clients.NewClient()
+	apiClient := clients.NewClient(url)
 
 	svc := service.CronCurrencyServer{
 		Repo:      repo,

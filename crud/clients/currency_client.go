@@ -3,7 +3,6 @@ package clients
 import (
 	"log"
 	"net/http"
-	"os"
 	"time"
 )
 
@@ -11,8 +10,7 @@ type CronAPIClient struct {
 	url string
 }
 
-func NewClient() *CronAPIClient {
-	url := os.Getenv("EXTERNAL_API")
+func NewClient(url string) *CronAPIClient {
 	if url == "" {
 		log.Fatal("no environment variable EXTERNAL_API")
 	}
