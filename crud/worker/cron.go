@@ -2,7 +2,7 @@ package worker
 
 import (
 	"context"
-	"currency_service/crud/service"
+	"currency_service/crud/clients"
 	"fmt"
 	"log"
 	"time"
@@ -12,10 +12,10 @@ type Cron struct {
 	ctx    context.Context
 	cancel context.CancelFunc
 	ticker *time.Ticker
-	svc    *service.CronCurrencyServer
+	svc    *clients.CronCurrencyServer
 }
 
-func NewCron(svc *service.CronCurrencyServer) *Cron {
+func NewCron(svc *clients.CronCurrencyServer) *Cron {
 	ctx, cancel := context.WithCancel(context.Background())
 	return &Cron{
 		ctx:    ctx,

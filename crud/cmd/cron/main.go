@@ -3,7 +3,6 @@ package main
 import (
 	"currency_service/crud/clients"
 	"currency_service/crud/repository"
-	"currency_service/crud/service"
 	"currency_service/crud/worker"
 	_ "github.com/lib/pq"
 	"log"
@@ -28,9 +27,9 @@ func main() {
 
 	apiClient := clients.NewClient(url)
 
-	svc := service.CronCurrencyServer{
+	svc := clients.CronCurrencyServer{
 		Repo:      repo,
-		APIClient: apiClient,
+		ApiClient: apiClient,
 	}
 
 	cronJob := worker.NewCron(&svc)
