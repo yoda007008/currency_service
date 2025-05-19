@@ -38,6 +38,11 @@ func (c *CronCurrencyServer) RequestToClient() (*http.Response, error) {
 		return resp, fmt.Errorf("Запрос не выпонен")
 	}
 
+	if resp.StatusCode != http.StatusOK {
+		defer resp.Body.Close()
+		body, _ := io.ReadAll(resp.Body)
+		return nil, fmt.Errorf("Статус код:", body)
+	}
 	return resp, nil
 }
 

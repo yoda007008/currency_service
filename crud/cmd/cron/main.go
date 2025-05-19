@@ -6,6 +6,7 @@ import (
 	"currency_service/crud/worker"
 	_ "github.com/lib/pq"
 	"log"
+	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
@@ -25,11 +26,12 @@ func main() {
 		log.Fatalf("not connect to database", err)
 	}
 
-	apiClient := clients.NewClient(url)
+	apiClient := &http.Client{Timeout: time.Second * 10}
 
 	svc := clients.CronCurrencyServer{
 		Repo:      repo,
 		ApiClient: apiClient,
+		BaseURL:   url,
 	}
 
 	cronJob := worker.NewCron(&svc)
