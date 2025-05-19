@@ -11,9 +11,6 @@ type CronAPIClient struct {
 }
 
 func NewClient(url string) *CronAPIClient {
-	if url == "" {
-		log.Fatal("no environment variable EXTERNAL_API")
-	}
 	return &CronAPIClient{url: url}
 }
 

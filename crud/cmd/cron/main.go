@@ -17,6 +17,10 @@ func main() {
 	connStr := os.Getenv("DATABASE_URL")
 	url := os.Getenv("EXTERNAL_API")
 
+	if url == "" {
+		log.Fatal("no environment variable EXTERNAL_API")
+	}
+
 	repo, err := repository.NewPostgresCurrencyRepository(connStr)
 	if err != nil {
 		log.Fatalf("not connect to database", err)
