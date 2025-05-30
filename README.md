@@ -9,19 +9,13 @@
 Установите утилиту Task, затем выполните команду:
 
 ```plaintext
-task rundb   
+task run   
 ```
 
-Далее установите нужные зависимости и запустите Currency Service:
+Если лень устанавливать данную утилиту, можете запустить через Docker Compose:
 
 ```plaintext
-go build currency_service/crud/cmd/currency
+docker-compose up --build
 ```
 
-И Gateway Service
 
-```plaintext
-go build currency_service/gateway/cmd/gateway
-```
-
-Далее протестируйте при помощи клиента, например [Postman](https://www.postman.com/)
