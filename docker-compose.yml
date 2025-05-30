@@ -1,4 +1,38 @@
+version: "3.8"
 services:
+  currency:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: currency_service
+    depends_on:
+      - db
+    environment:
+      - CONFIG_PATH=config/config.yaml
+    networks:
+      - backend
+
+  cron:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cron_worker
+    depends_on:
+      - db
+    networks:
+      - backend
+
+  gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gateway_service
+    ports:
+        - "8080:8080"
+    depends_on:
+      - currency
+    networks:
+      - backend
   db:
     image: postgres
     container_name: currency_db
@@ -13,3 +47,6 @@ services:
 
 volumes:
   pgdata:
+
+networks:
+  backend:
